@@ -1,12 +1,6 @@
-let postsArray = [];
+import {createElement} from "../utils/util.js";
 
-function createElement(tagName, className, html, id, ship) {
-    const element = document.createElement(tagName);
-    element.className = className;
-    element.innerHTML = html;
-    element.id = id;
-    ship.append(element);
-}
+let postsArray = [];
 
 async function fetchGetPosts() {
     try {
