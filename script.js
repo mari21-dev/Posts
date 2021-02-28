@@ -8,26 +8,24 @@ function createElement(tagName, className, html, id, ship) {
   ship.append(element);
 }
 
-fetch("https://jsonplaceholder.typicode.com/posts")
-  .then((response) => {
-    return response.json();
-  })
-  .then((posts) => {
-    console.log(posts);
-    postsArray = posts;
+async function postData() {
+  let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+  let posts = await response.json();
+  postsArray = posts;
+  postsArray.map((element) => {
+    const post = {
+      title: element.title,
+      body: element.body,
+    };
 
-    postsArray.map((element) => {
-      const post = {
-        title: element.title,
-        body: element.body,
-      };
-
-      createElement(
-        "div",
-        "post",
-        `<h2>${post.title}</h2><p>${post.body}</p>`,
-        "",
-        document.querySelector(".container-post")
-      );
-    });
+    createElement(
+      "div",
+      "post",
+      `<h2>${post.title}</h2><p>${post.body}</p>`,
+      "",
+      document.querySelector(".container-post")
+    );
   });
+}
+
+postData();
