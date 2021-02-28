@@ -33,23 +33,26 @@ const renderPosts = async () => {
     postsArray = await fetchGetPopularPosts();
 
     postsArray.articles.map((element) => {
-        const post = {
-            title: element.title,
-            description: element.description,
-            content: element.content,
-            publishedAt: element.publishedAt
-        };
+            const post = {
+                title: element.title,
+                url: element.url,
+                description: element.description,
+                content: element.content,
+                publishedAt: element.publishedAt
+            };
 
-        createElement(
-            "div",
-            "post",
-            `<h2>${post.title}</h2><p>${post.content}</p>` +
-            `<h3>${element.description}</h3>` +
-            `<h4>${post.publishedAt}</h4>`,
-            "",
-            containerPostElement
-        );
-    });
+            createElement(
+                "div",
+                "post",
+                `<a href="${post.url}" target="_blank"><h2>${post.title}</h2>\</a>` +
+                `<h4>${post.publishedAt}</h4>` +
+                `<p>${post.content}</p>` +
+                `<h3>${element.description}</h3>`,
+                "",
+                containerPostElement
+            );
+        }
+    );
 }
 
 const renderGetQueryPosts = async () => {
@@ -59,23 +62,27 @@ const renderGetQueryPosts = async () => {
     const posts = await fetchGetQueryPosts(name)
 
     posts.articles.map((element) => {
-        const post = {
-            title: element.title,
-            description: element.description,
-            content: element.content,
-            publishedAt: element.publishedAt
-        };
+            const post = {
+                title: element.title,
+                url: element.url,
+                description: element.description,
+                content: element.content,
+                publishedAt: element.publishedAt
+            };
 
-        createElement(
-            "div",
-            "post",
-            `<h2>${post.title}</h2><p>${post.content}</p>` +
-            `<h3>${element.description}</h3>` +
-            `<h4>${post.publishedAt}</h4>`,
-            "",
-            containerPostElement
-        );
-    });
+            createElement(
+                "div",
+                "post",
+                `<a href="${post.url}" target="_blank"><h2>${post.title}</h2>\</a>` +
+                `<h4>${post.publishedAt}</h4>` +
+                `<p>${post.content}</p>` +
+                `<h3>${element.description}</h3>`,
+                "",
+                containerPostElement
+            );
+        }
+    )
+    ;
 }
 
 window.onload = () => renderPosts()
