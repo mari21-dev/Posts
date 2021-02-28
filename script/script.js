@@ -1,10 +1,28 @@
 import {createElement} from "../utils/util.js";
 
+const API_KEY = "b7a9aaf7595e483981b85cb778c2902f"
+
+const containerPostElement = document.querySelector(".container-post")
+const btnNewsSearchElement = document.querySelector(".search-news")
+
 let postsArray = [];
 
-async function fetchGetPosts() {
+const fetchGetPopularPosts = async () => {
+    const url = `http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${API_KEY}`
+
     try {
-        let response = await fetch("https://jsonplaceholder.typicode.com/posts");
+        let response = await fetch(url);
+        return await response.json();
+    } catch (e) {
+        alert(`Произошла ошибка в методе: ${e.message}`)
+    }
+}
+
+const fetchGetQueryPosts = async (query) => {
+    const url = `http://newsapi.org/v2/everything?q=${query}&sortBy=popularity&apiKey=${API_KEY}`
+
+    try {
+        let response = await fetch(url);
         return await response.json();
     } catch (e) {
         alert(`Произошла ошибка в методе: ${e.message}`)
@@ -12,21 +30,57 @@ async function fetchGetPosts() {
 }
 
 const renderPosts = async () => {
-    postsArray = await fetchGetPosts();
-    postsArray.map((element) => {
+    postsArray = await fetchGetPopularPosts();
+
+    postsArray.articles.map((element) => {
         const post = {
             title: element.title,
-            body: element.body,
+            description: element.description,
+            content: element.content,
+            publishedAt: element.publishedAt
         };
 
         createElement(
             "div",
             "post",
-            `<h2>${post.title}</h2><p>${post.body}</p>`,
+            `<h2>${post.title}</h2><p>${post.content}</p>` +
+            `<h3>${element.description}</h3>` +
+            `<h4>${post.publishedAt}</h4>`,
             "",
-            document.querySelector(".container-post")
+            containerPostElement
+        );
+    });
+}
+
+const renderGetQueryPosts = async () => {
+    const inputPostNameElement = document.querySelector(".name-news")
+    const name = inputPostNameElement.value
+
+    const posts = await fetchGetQueryPosts(name)
+
+    posts.articles.map((element) => {
+        const post = {
+            title: element.title,
+            description: element.description,
+            content: element.content,
+            publishedAt: element.publishedAt
+        };
+
+        createElement(
+            "div",
+            "post",
+            `<h2>${post.title}</h2><p>${post.content}</p>` +
+            `<h3>${element.description}</h3>` +
+            `<h4>${post.publishedAt}</h4>`,
+            "",
+            containerPostElement
         );
     });
 }
 
 window.onload = () => renderPosts()
+
+btnNewsSearchElement.addEventListener("click", () => {
+    containerPostElement.innerHTML = ""
+    renderGetQueryPosts()
+})
