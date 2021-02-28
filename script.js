@@ -8,7 +8,7 @@ function createElement(tagName, className, html, id, ship) {
   ship.append(element);
 }
 
-async function postData() {
+async function getPosts() {
   let response = await fetch("https://jsonplaceholder.typicode.com/posts");
   let posts = await response.json();
   postsArray = posts;
@@ -28,4 +28,4 @@ async function postData() {
   });
 }
 
-postData();
+getPosts();
