@@ -5,7 +5,7 @@ const API_KEY = "b7a9aaf7595e483981b85cb778c2902f"
 const containerPostElement = document.querySelector(".container-post")
 const btnNewsSearchElement = document.querySelector(".search-news")
 
-let postsArray = [];
+let posts = [];
 
 const fetchGetPopularPosts = async () => {
     const url = `http://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=${API_KEY}`
@@ -30,9 +30,9 @@ const fetchGetQueryPosts = async (query) => {
 }
 
 const renderPosts = async () => {
-    postsArray = await fetchGetPopularPosts();
+    posts = await fetchGetPopularPosts();
 
-    postsArray.articles.map((element) => {
+    posts.articles.map((element) => {
             const post = {
                 title: element.title,
                 url: element.url,
@@ -89,5 +89,6 @@ window.onload = () => renderPosts()
 
 btnNewsSearchElement.addEventListener("click", () => {
     containerPostElement.innerHTML = ""
+
     renderGetQueryPosts()
 })
